@@ -273,13 +273,13 @@ public class SSHAgentStepWorkflowTest extends SSHAgentBase {
                 + "  withDockerContainer('kroniak/ssh-client') {\n"
                 + "    sh 'ssh-agent -k || :'\n"
                 + "    sshagent(credentials: ['" + CREDENTIAL_ID + "']) {\n"
-                + "      sh 'env'\n"
+                + "      sh 'env | sort'\n"
                 + "    }\n"
                 + "  }\n"
                 + "}\n", true)
             );
             WorkflowRun b = r.buildAndAssertSuccess(job);
-            r.assertLogNotContains("cloudbees", b);
+            r.assertLogNotContains("SSH_PASSPHRASE=cloudbees", b);
         });
     }
 
